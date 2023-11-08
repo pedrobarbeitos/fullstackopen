@@ -1,0 +1,8 @@
+sequenceDiagram
+participant browser
+participant server
+
+    browser->>server: Browser does POST request to server adress new_note. This contains new note as JSON data.
+    activate server
+    server-->>browser: Server respondes with Status code 201 created. Using JavaScript the browser updates without need for additonal HTML request to server. 
+    deactivate server

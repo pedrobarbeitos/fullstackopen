@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: browser does GET request to exampleapp/spa
+    activate server
+    server-->>browser: server returns HTML document
+    deactivate server
+
+    browser->>server: browser does GET request to exampleapp/spa.js
+    activate server
+    server-->>browser: server returns Javascript file
+    deactivate server
+
+    browser->>server: browser does GET request to exampleapp/data.json
+    activate server
+    server-->>browser: server returns JSON data file
+    deactivate server
+
