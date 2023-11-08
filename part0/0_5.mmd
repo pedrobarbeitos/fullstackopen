@@ -1,8 +1,19 @@
 sequenceDiagram
-participant browser
-participant server
+    participant browser
+    participant server
 
-    browser->>server: Browser does POST request to server adress new_note. This contains new note as JSON data.
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate server
-    server-->>browser: Server respondes with Status code 201 created. Using JavaScript the browser updates without need for additonal HTML request to server. 
+    server-->>browser: HTML document
     deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    activate server
+    server-->>browser: the Javascript file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: the JSON data file
+    deactivate server
+
