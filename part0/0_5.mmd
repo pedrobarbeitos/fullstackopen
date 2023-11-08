@@ -2,18 +2,18 @@ sequenceDiagram
     participant browser
     participant server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    browser->>server: browser does GET request to exampleapp/spa
     activate server
-    server-->>browser: HTML document
+    server-->>browser: server returns HTML document
     deactivate server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    browser->>server: browser does GET request to exampleapp/spa.js
     activate server
-    server-->>browser: the Javascript file
+    server-->>browser: server returns Javascript file
     deactivate server
 
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    browser->>server: browser does GET request to exampleapp/data.json
     activate server
-    server-->>browser: the JSON data file
+    server-->>browser: server returns JSON data file
     deactivate server
 
