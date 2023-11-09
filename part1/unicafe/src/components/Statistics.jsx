@@ -5,13 +5,13 @@ export const Statistics = (props) => {
   if (props.clicks.total > 0) {
     return (
       <tbody>
-        <StatisticLine name={"Good"} count={props.clicks.good} />
-        <StatisticLine name={"Neutral"} count={props.clicks.neutral} />
-        <StatisticLine name={"Bad"} count={props.clicks.bad} />
-        <StatisticLine name={"Total feedbacks"} count={props.clicks.total} />
-        <StatisticLine name={"Average Score"} count={props.clicks.score} />
+        <StatisticLine name={"good"} count={props.clicks.good} />
+        <StatisticLine name={"neutral"} count={props.clicks.neutral} />
+        <StatisticLine name={"bad"} count={props.clicks.bad} />
+        <StatisticLine name={"all"} count={props.clicks.total} />
+        <StatisticLine name={"average"} count={props.clicks.score} />
         <StatisticLine
-          name={"Positive feedback"}
+          name={"positive"}
           count={props.clicks.percentage}
           symbol={"%"}
         />
