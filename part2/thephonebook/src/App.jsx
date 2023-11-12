@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Information } from "./components/Information";
 import { SearchInput } from "./components/SearchInput";
 import { AddPersonForm } from "./components/AddPersonForm";
-import axios from "axios";
+import server from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,7 +11,7 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
+    server.getAll().then((response) => {
       setPersons(response.data);
     });
   }, []);
@@ -23,14 +23,33 @@ const App = () => {
       number: newNumber,
     };
 
-    nameExists
-      ? alert(`${newName} is already added to phone book`)
-      : setPersons(persons.concat(personObject)),
+    const existingPerson = persons.find((person) => person.name === newName);
+
+    const updateNumber = (id, newNumber) => {
+      const url = `http://localhost:3001/persons/${id}`;
+      const updatedNumber = { number: newNumber };
+
+      if (
+        window.confirm(
+          `${newName} is already added to phone book, replace old number with a new one?`
+        )
+      ) {
+        server.update(url, updatedNumber).then((response) => {
+          setPersons(
+            persons.map((person) => (person.id === id ? response.data : person))
+          );
+        });
+      }
+    };
+
+    existingPerson
+      ? updateNumber(existingPerson.id, newNumber)
+      : server.create(personObject).then((response) => {
+          setPersons(persons.concat(response.data));
+        }),
       setNewName(" "),
       setNewNumber(" ");
   };
-
-  const nameExists = persons.some((obj) => obj["name"] === newName);
 
   // returns my search array
   const searchedPerson = persons.filter((person) =>
@@ -50,6 +69,13 @@ const App = () => {
     return setSearch(event.target.value);
   };
 
+  const deleteNote = (id, name) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      setPersons(persons.filter((person) => person.id !== id));
+      server.delete(id);
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -65,7 +91,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Information persons={searchedPerson} />
+      <Information persons={searchedPerson} deleteNote={deleteNote} />
 
       <div>{/* debug: {newName} {newNumber} */}</div>
     </div>

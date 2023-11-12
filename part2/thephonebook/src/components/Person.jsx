@@ -1,9 +1,10 @@
 import React from "react";
 
-export const Person = (props) => {
+export const Person = ({ name, number, deleteNote, id }) => {
   return (
     <div>
-      {props.name} {props.number}
+      {name} {number}{" "}
+      <button onClick={() => deleteNote(id, name)}>Delete</button>
     </div>
   );
 };

@@ -1,11 +1,17 @@
 import React from "react";
 import { Person } from "./Person";
 
-export const Information = (props) => {
+export const Information = ({ persons, deleteNote }) => {
   return (
     <div>
-      {props.persons.map((person) => (
-        <Person key={person.name} name={person.name} number={person.number} />
+      {persons.map((person) => (
+        <Person
+          key={person.name}
+          name={person.name}
+          number={person.number}
+          deleteNote={deleteNote}
+          id={person.id}
+        />
       ))}
     </div>
   );
