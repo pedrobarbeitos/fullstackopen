@@ -3,12 +3,14 @@ import { Information } from "./components/Information";
 import { SearchInput } from "./components/SearchInput";
 import { AddPersonForm } from "./components/AddPersonForm";
 import server from "./services/persons";
+import { Notification } from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     server.getAll().then((response) => {
@@ -23,6 +25,7 @@ const App = () => {
       number: newNumber,
     };
 
+    const nameExists = persons.some((person) => person["name"] === newName);
     const existingPerson = persons.find((person) => person.name === newName);
 
     const updateNumber = (id, newNumber) => {
@@ -30,6 +33,7 @@ const App = () => {
       const updatedNumber = { number: newNumber };
 
       if (
+        nameExists &&
         window.confirm(
           `${newName} is already added to phone book, replace old number with a new one?`
         )
@@ -38,14 +42,22 @@ const App = () => {
           setPersons(
             persons.map((person) => (person.id === id ? response.data : person))
           );
+          setNotification(`${newName} number was updated`);
+          setTimeout(() => {
+            setNotification(null);
+          }, 2000);
         });
       }
     };
 
-    existingPerson
+    nameExists
       ? updateNumber(existingPerson.id, newNumber)
       : server.create(personObject).then((response) => {
           setPersons(persons.concat(response.data));
+          setNotification(`Added ${newName}`);
+          setTimeout(() => {
+            setNotification(null);
+          }, 2000);
         }),
       setNewName(" "),
       setNewNumber(" ");
@@ -76,11 +88,13 @@ const App = () => {
     }
   };
 
+  console.log(newName);
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification notification={notification} />
       <SearchInput search={search} handleSearch={handleSearch} />
-
       <h2>Add a new</h2>
       <AddPersonForm
         newName={newName}
