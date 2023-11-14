@@ -25,9 +25,10 @@ const App = () => {
       number: newNumber,
     };
 
-    const nameExists = persons.some((person) => person["name"] === newName);
+    // defines existing person
     const existingPerson = persons.find((person) => person.name === newName);
 
+    // function to update number only
     const updateNumber = (id, newNumber) => {
       const url = `http://localhost:3001/persons/${id}`;
       const updatedNumber = { number: newNumber };
@@ -50,6 +51,12 @@ const App = () => {
       }
     };
 
+    // check if name exists
+    const nameExists = persons.some((person) => person["name"] === newName);
+
+    console.log(nameExists);
+
+    // main function to update number or add person based on nameExists
     nameExists
       ? updateNumber(existingPerson.id, newNumber)
       : server.create(personObject).then((response) => {
@@ -84,7 +91,15 @@ const App = () => {
   const deleteNote = (id, name) => {
     if (window.confirm(`Delete ${name} ?`)) {
       setPersons(persons.filter((person) => person.id !== id));
-      server.delete(id);
+      server.delete(id).catch((error) => {
+        console.log(error.toJSON());
+        setNotification(
+          `Information of ${name} has already been removed from server`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 2000);
+      });
     }
   };
 
