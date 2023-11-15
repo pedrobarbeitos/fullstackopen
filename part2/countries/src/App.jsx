@@ -12,23 +12,27 @@ const App = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `https://api.openweathermap.org/data/2.5/weather?q=${capital},${countryCode}&APPID=${
-  //         import.meta.env.VITE_WEATHER_API
-  //       }`
-  //     )
-  //     .then((response) => {
-  //       setWeather(response.data.weather);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}}&appid=${
+          import.meta.env.VITE_WEATHER_API
+        }`
+      )
+      .then((response) => {
+        setWeather(response.data.weather);
+      });
+  }, []);
 
   // my app states
 
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState([]);
+  const [coordinates, setCoordinates] = useState([]);
+
+  const lat = coordinates[0];
+  const long = coordinates[1];
 
   const searchedCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(search.toLowerCase())
@@ -37,9 +41,8 @@ const App = () => {
   // console.log(searchedCountries);
   console.log(weather);
   console.log(countries);
-
-  let capital = "London";
-  let countryCode = "uk";
+  console.log(searchedCountries);
+  console.log(coordinates);
 
   // my handles
   const handleSearch = (event) => {
@@ -53,6 +56,7 @@ const App = () => {
       <Results
         searchedCountries={searchedCountries}
         setSearch={setSearch}
+        setCoordinates={setCoordinates}
         setWeather={setWeather}
       />
     </div>
