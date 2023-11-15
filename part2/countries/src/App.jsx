@@ -9,7 +9,18 @@ const App = () => {
       .get("https://studies.cs.helsinki.fi/restcountries/api/all")
       .then((response) => {
         setCountries(response.data);
-        console.log(countries[50]);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${
+          import.meta.env.VITE_WEATHER_API
+        }`
+      )
+      .then((response) => {
+        setWeather(response.data);
       });
   }, []);
 
@@ -17,13 +28,14 @@ const App = () => {
 
   const [countries, setCountries] = useState([]);
   const [search, setSearch] = useState("");
-  console.log(search);
+  const [weather, setWeather] = useState([]);
 
   const searchedCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(search.toLowerCase())
   );
 
-  console.log(searchedCountries);
+  // console.log(searchedCountries);
+  console.log(weather.weather[0].id);
 
   // my handles
   const handleSearch = (event) => {
