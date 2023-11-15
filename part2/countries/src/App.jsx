@@ -34,7 +34,7 @@ const App = () => {
     <div>
       search country
       <input value={search} onChange={handleSearch} />
-      <Results searchedCountries={searchedCountries} />
+      <Results searchedCountries={searchedCountries} setSearch={setSearch} />
     </div>
   );
 };
