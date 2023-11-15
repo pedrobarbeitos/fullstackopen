@@ -12,17 +12,17 @@ const App = () => {
       });
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=${
-          import.meta.env.VITE_WEATHER_API
-        }`
-      )
-      .then((response) => {
-        setWeather(response.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://api.openweathermap.org/data/2.5/weather?q=${capital},${countryCode}&APPID=${
+  //         import.meta.env.VITE_WEATHER_API
+  //       }`
+  //     )
+  //     .then((response) => {
+  //       setWeather(response.data.weather);
+  //     });
+  // }, []);
 
   // my app states
 
@@ -35,7 +35,11 @@ const App = () => {
   );
 
   // console.log(searchedCountries);
-  console.log(weather.weather[0].id);
+  console.log(weather);
+  console.log(countries);
+
+  let capital = "London";
+  let countryCode = "uk";
 
   // my handles
   const handleSearch = (event) => {
@@ -46,7 +50,11 @@ const App = () => {
     <div>
       search country
       <input value={search} onChange={handleSearch} />
-      <Results searchedCountries={searchedCountries} setSearch={setSearch} />
+      <Results
+        searchedCountries={searchedCountries}
+        setSearch={setSearch}
+        setWeather={setWeather}
+      />
     </div>
   );
 };

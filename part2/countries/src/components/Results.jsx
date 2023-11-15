@@ -2,7 +2,7 @@ import React from "react";
 import { Country } from "./Country";
 import { View } from "./View";
 
-export const Results = ({ searchedCountries, setSearch }) => {
+export const Results = ({ searchedCountries, setSearch, setWeather }) => {
   if (searchedCountries.length < 10 && searchedCountries.length > 1) {
     return (
       <div>
