@@ -3,7 +3,7 @@ import { Country } from "./Country";
 import { View } from "./View";
 import { Weather } from "./Weather";
 
-export const Results = ({ searchedCountries, setSearch }) => {
+export const Results = ({ searchedCountries, setSearch, weather }) => {
   if (searchedCountries.length < 10 && searchedCountries.length > 1) {
     return (
       <div>
@@ -22,7 +22,7 @@ export const Results = ({ searchedCountries, setSearch }) => {
     return (
       <div>
         <View searchedCountries={searchedCountries} />
-        {/* <Weather searchedCountries={searchedCountries} /> */}
+        <Weather searchedCountries={searchedCountries} weather={weather} />
       </div>
     );
   }
