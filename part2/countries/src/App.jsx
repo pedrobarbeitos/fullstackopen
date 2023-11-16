@@ -13,15 +13,17 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}}&appid=${
-          import.meta.env.VITE_WEATHER_API
-        }`
-      )
-      .then((response) => {
-        setWeather(response.data.weather);
-      });
+    if (searchedCountries.length === 1) {
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}}&appid=${
+            import.meta.env.VITE_WEATHER_API
+          }`
+        )
+        .then((response) => {
+          setWeather(response.data.weather);
+        });
+    }
   }, []);
 
   // my app states
@@ -31,18 +33,17 @@ const App = () => {
   const [weather, setWeather] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
 
-  const lat = coordinates[0];
-  const long = coordinates[1];
-
   const searchedCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(search.toLowerCase())
   );
 
+  // setCoordinates(searchedCountries[0].capitalInfo.latlng);
+
+  let lat = coordinates[0];
+  let long = coordinates[1];
+
   // console.log(searchedCountries);
-  console.log(weather);
-  console.log(countries);
-  console.log(searchedCountries);
-  console.log(coordinates);
+  // console.log(coordinates);
 
   // my handles
   const handleSearch = (event) => {
@@ -53,12 +54,7 @@ const App = () => {
     <div>
       search country
       <input value={search} onChange={handleSearch} />
-      <Results
-        searchedCountries={searchedCountries}
-        setSearch={setSearch}
-        setCoordinates={setCoordinates}
-        setWeather={setWeather}
-      />
+      <Results searchedCountries={searchedCountries} setSearch={setSearch} />
     </div>
   );
 };

@@ -1,13 +1,9 @@
 import React from "react";
 import { Country } from "./Country";
 import { View } from "./View";
+import { Weather } from "./Weather";
 
-export const Results = ({
-  searchedCountries,
-  setSearch,
-  setWeather,
-  setCoordinates,
-}) => {
+export const Results = ({ searchedCountries, setSearch }) => {
   if (searchedCountries.length < 10 && searchedCountries.length > 1) {
     return (
       <div>
@@ -23,8 +19,12 @@ export const Results = ({
   }
 
   if (searchedCountries.length === 1) {
-    setCoordinates(searchedCountries[0].capitalInfo.latlng);
-    return <View searchedCountries={searchedCountries} />;
+    return (
+      <div>
+        <View searchedCountries={searchedCountries} />
+        {/* <Weather searchedCountries={searchedCountries} /> */}
+      </div>
+    );
   }
 
   if (searchedCountries.length > 100) {
